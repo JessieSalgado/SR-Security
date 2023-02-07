@@ -32,7 +32,7 @@ function Add-CertificatePrivateKeyPermission {
     param
     (
         # The target certificate object from the local certificate store.
-        [Parameter(Mandatory = $true, ParameterSetName = 'Certificate', ValueFromPipeline = $true)]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Certificate')]
         [System.Security.Cryptography.X509Certificates.X509Certificate2]
         $Certificate,
 
