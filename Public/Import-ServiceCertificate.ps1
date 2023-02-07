@@ -28,6 +28,7 @@ Make sure to always call the service parameter before the password one.
 #>
 function Import-ServiceCertificate {
     [CmdletBinding()]
+    #Requires -RunAsAdministrator
     param(
         [Parameter(Mandatory, HelpMessage = "The path to the PFX Certificate File.")]
         [string]$PFXFile,
@@ -117,7 +118,12 @@ function Import-ServiceCertificate {
             }
             Copy-Item @CopyParam
 
-            Add-CertificatePrivateKeyPermission -Thumbprint $Thumbprint -Identity $($S.StartName) -Permission ReadAndExecute
+            try {
+                Add-CertificatePrivateKeyPermission -Thumbprint $Thumbprint -Identity $($S.StartName) -Permission ReadAndExecute
+            }
+            catch {
+                $PSCmdlet.ThrowTerminatingError($PSItem)
+            }
         }
     }
     end {
